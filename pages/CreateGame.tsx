@@ -10,7 +10,6 @@ import {
   Text,
 } from 'react-native-paper'
 import useForm from '../hooks/useForm'
-import { createGame } from '../store/slices/game'
 import withAppbar from '../layouts/withAppBar'
 import { ApplicationState } from '../store/store'
 
@@ -43,19 +42,11 @@ const CreateGame = () => {
     dispatch({
       type: 'FETCH_CREATE_GAME',
       payload: {
-        advancedMode: false,
-        maxPlayers: 4,
-        maxTurns: 5,
+        advancedMode: formValues.advancedMode,
+        maxPlayers: formValues.maxPlayers,
+        maxTurns: formValues.maxTurns,
       },
     })
-    // dispatch({
-    //   type: 'FETCH_CREATE_GAME',
-    //   payload: {
-    //     advancedMode: formValues.advancedMode,
-    //     maxPlayers: formValues.maxPlayers,
-    //     maxTurns: formValues.maxTurns,
-    //   },
-    // })
   }
 
   const [formState, onSubmit, onChange] = useForm(

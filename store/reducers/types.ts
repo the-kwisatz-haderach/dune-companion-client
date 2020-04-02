@@ -1,4 +1,4 @@
-import { IGame } from '../../../../server/engine/interfaces'
+import { IGame } from '../../../server/engine/interfaces'
 
 export const FETCH_CREATE_GAME = 'FETCH_CREATE_GAME'
 export const SET_GAME_CONDITIONS = 'SET_GAME_CONDITIONS'

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react'
+import config from './config'
 import {
   Provider as PaperProvider,
   ActivityIndicator,
@@ -10,20 +11,10 @@ import configureStore from './store'
 import { theme } from './theme'
 
 const store = configureStore()
+config()
 
 export default function App() {
   const [fontLoaded, setFontLoaded] = useState(false)
-
-  useEffect(() => {
-    ;(async function() {
-      try {
-        const res = await fetch('http://192.168.0.27:8000/api/users')
-        console.log(res)
-      } catch (err) {
-        console.log(err)
-      }
-    })()
-  }, [])
 
   useEffect(() => {
     let fontTimer

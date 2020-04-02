@@ -1,7 +1,7 @@
 import { createStore } from 'redux'
 import { IGame as GameState } from '../../server/engine/interfaces'
 import initializeMiddleware from './middleware'
-import rootReducer from './slices'
+import rootReducer from './reducers'
 import rootEpic from './epics'
 
 export interface ApplicationState {
