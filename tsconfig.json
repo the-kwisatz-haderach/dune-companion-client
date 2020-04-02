@@ -7,8 +7,6 @@
     "noEmit": true,
     "skipLibCheck": true,
     "resolveJsonModule": true,
-    "compilerOptions": {
-      "baseUrl": "src"
-    }
+    "baseUrl": "src"
   }
 }

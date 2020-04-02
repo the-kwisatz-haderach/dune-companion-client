@@ -1,18 +1,27 @@
 import React from 'react'
 import { View } from 'react-native'
-import { NativeRouter, Route, Switch } from 'react-router-native'
+import { NativeRouter, Route, Switch, BackButton } from 'react-router-native'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
+import CreateProfile from './pages/CreateProfile'
+import CreateGame from './pages/CreateGame'
 
 export default function Router() {
   return (
     <NativeRouter>
-      <View>
-        <Switch>
+      <BackButton>
+        <View>
           <Route exact path="/" component={Home} />
-          <Route path="/profile" component={Profile} />
-        </Switch>
-      </View>
+          <Switch>
+            <Route exact path="/profile" component={Profile} />
+            <Route path="/profile/new" component={CreateProfile} />
+          </Switch>
+          <Switch>
+            <Route exact path="/game" component={Profile} />
+            <Route path="/game/new" component={CreateGame} />
+          </Switch>
+        </View>
+      </BackButton>
     </NativeRouter>
   )
 }

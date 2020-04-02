@@ -1,17 +1,16 @@
-import { configureStore } from '@reduxjs/toolkit'
-import { gameReducer } from './game/gameReducer'
-import { GameState } from './game/types'
-import { FactionsState } from './factions/types'
+import { createStore } from 'redux'
+import { IGame as GameState } from '../../server/engine/interfaces'
+import initializeMiddleware from './middleware'
+import rootReducer from './slices'
+import rootEpic from './epics'
 
 export interface ApplicationState {
   game: GameState
-  factions: FactionsState
 }
 
-const rootReducer = {
-  game: gameReducer,
+export default function configureStore() {
+  const { middleware, initEpicmiddleware } = initializeMiddleware(rootEpic)
+  const store = createStore(rootReducer, middleware)
+  initEpicmiddleware()
+  return store
 }
-
-export const store = configureStore({
-  reducer: rootReducer,
-})
