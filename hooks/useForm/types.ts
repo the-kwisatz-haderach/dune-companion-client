@@ -24,11 +24,11 @@ interface UseFormOptions {
   validationSchema: ValidationSchema
 }
 
-interface OnSubmit {
+export interface OnSubmit {
   (): void
 }
 
-interface OnChange {
+export interface OnChange {
   (fieldKey: keyof FormSchema, value): void
 }
 

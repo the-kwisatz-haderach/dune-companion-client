@@ -1,12 +1,12 @@
 import { ofType, Epic } from 'redux-observable'
 import { ajax } from 'rxjs/ajax'
 import { mergeMap, map, catchError } from 'rxjs/operators'
-import { FETCH_CREATE_GAME, SET_GAME_CONDITIONS } from '../reducers/types'
+import { fetchCreateGame, setGameConditions } from '../game.actions'
 import { of } from 'rxjs'
 
-export const createGameEpic: Epic<any> = action$ =>
+export const createGame: Epic<any> = action$ =>
   action$.pipe(
-    ofType(FETCH_CREATE_GAME),
+    ofType(fetchCreateGame.type),
     mergeMap(({ payload }) =>
       ajax({
         url: `${globalThis.config.HOST}/api/games`,
@@ -23,5 +23,5 @@ export const createGameEpic: Epic<any> = action$ =>
         })
       )
     ),
-    map(conditions => ({ type: SET_GAME_CONDITIONS, payload: conditions }))
+    map(conditions => setGameConditions(conditions))
   )

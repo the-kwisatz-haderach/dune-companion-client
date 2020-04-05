@@ -5,6 +5,11 @@ export const SET_GAME_CONDITIONS = 'SET_GAME_CONDITIONS'
 export const ADVANCE_TURN = 'ADVANCE_TURN'
 export const ADVANCE_PHASE = 'ADVANCE_PHASE'
 
+export type InitialGameConditions = Pick<
+  IGame,
+  'maxPlayers' | 'maxTurns' | 'advancedMode'
+>
+
 export interface SetGameConditionsAction {
   type: typeof SET_GAME_CONDITIONS
   payload: IGame
