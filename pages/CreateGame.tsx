@@ -9,7 +9,7 @@ import {
   ToggleButton,
   Text,
 } from 'react-native-paper'
-import useForm from '../hooks/useForm'
+import useForm from '../hooks/useForm/useForm'
 import withAppbar from '../layouts/withAppBar'
 import { ApplicationState } from '../store/store'
 
