@@ -1,15 +1,13 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Switch, HelperText, Button, ToggleButton } from 'react-native-paper'
-import { FormSchema, OnChange, OnSubmit } from '../../hooks/useForm/types'
+import { FormComponentProps } from './types'
 
-interface Props {
-  formState: FormSchema
-  onSubmit: OnSubmit
-  onChange: OnChange
-}
-
-const CreateGameForm: React.FC<Props> = ({ formState, onSubmit, onChange }) => {
+const CreateGameForm: React.FC<FormComponentProps> = ({
+  formState,
+  onSubmit,
+  onChange,
+}) => {
   return (
     <View>
       <ToggleButton.Row

@@ -37,7 +37,7 @@ export default function Home(): ReactElement {
             marginTop: 40,
           }}
         >
-          <Link to="/game/new">
+          <Link to="/game/create">
             <Button mode="contained">Create game</Button>
           </Link>
         </View>

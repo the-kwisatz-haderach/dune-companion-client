@@ -1,3 +1,4 @@
-import { createGame } from './createGame'
+import { createGameEpic } from './createGame'
+import { addPlayerEpic } from './createPlayer'
 
-export default [createGame]
+export default [createGameEpic, addPlayerEpic]

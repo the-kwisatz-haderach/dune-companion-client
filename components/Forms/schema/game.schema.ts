@@ -1,4 +1,6 @@
-export const gameSchema = {
+import { FormSchema } from '../../../hooks/useForm/types'
+
+export const gameSchema: FormSchema = {
   advancedMode: {
     value: false,
     label: 'Advanced mode',

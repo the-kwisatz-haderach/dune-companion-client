@@ -1,5 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import { Redirect, useLocation } from 'react-router-native'
 import { View, StyleSheet } from 'react-native'
 import { Headline, HelperText, Text } from 'react-native-paper'
 import useForm from '../hooks/useForm/useForm'
@@ -7,7 +8,7 @@ import withAppbar from '../layouts/withAppBar'
 import { ApplicationState } from '../store/store'
 import { gameSchema } from '../components/Forms/schema/game.schema'
 import CreateGameForm from '../components/Forms/CreateGameForm'
-import { fetchCreateGame } from '../store/game/game.actions'
+import { serverCreateGame } from '../store/game/game.actions'
 
 const styles = StyleSheet.create({
   container: {
@@ -17,11 +18,12 @@ const styles = StyleSheet.create({
 
 const CreateGame = () => {
   const dispatch = useDispatch()
+  const location = useLocation()
   const game = useSelector(({ game }: ApplicationState) => game)
 
   const handleSubmit = formValues => {
     dispatch(
-      fetchCreateGame({
+      serverCreateGame({
         maxPlayers: formValues.maxPlayers,
         advancedMode: formValues.advancedMode,
         maxTurns: formValues.maxTurns,
@@ -33,6 +35,15 @@ const CreateGame = () => {
 
   return (
     <View style={styles.container}>
+      {game.id !== '' ? (
+        <Redirect
+          from={location.pathname}
+          to={`${location.pathname}/${game.id}`}
+          push
+        />
+      ) : (
+        <></>
+      )}
       <Headline>Create game</Headline>
       <HelperText>Maximum players</HelperText>
       {game &&

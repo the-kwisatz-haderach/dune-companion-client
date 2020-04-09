@@ -1,9 +1,6 @@
+import './config'
 import React from 'react'
-import config from './config'
-import {
-  Provider as PaperProvider,
-  ActivityIndicator,
-} from 'react-native-paper'
+import { Provider as PaperProvider } from 'react-native-paper'
 import { Provider as StoreProvider } from 'react-redux'
 import Router from './Router'
 import configureStore from './store'
@@ -12,7 +9,6 @@ import useFont from './hooks/useFont'
 import FullScreenLoadingScreen from './components/Loaders/FullScreenLoadingScreen'
 
 const store = configureStore()
-config()
 
 export default function App() {
   const fontLoaded = useFont(

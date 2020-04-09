@@ -5,6 +5,7 @@ import Home from './pages/Home'
 import Profile from './pages/Profile'
 import CreateProfile from './pages/CreateProfile'
 import CreateGame from './pages/CreateGame'
+import GameLobby from './pages/GameLobby'
 
 export default function Router() {
   return (
@@ -18,7 +19,8 @@ export default function Router() {
           </Switch>
           <Switch>
             <Route exact path="/game" component={Profile} />
-            <Route path="/game/new" component={CreateGame} />
+            <Route exact path="/game/create" component={CreateGame} />
+            <Route path="/game/:id" component={GameLobby} />
           </Switch>
         </View>
       </BackButton>

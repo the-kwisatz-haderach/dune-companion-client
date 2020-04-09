@@ -1,27 +1,15 @@
 import { ofType, Epic } from 'redux-observable'
-import { ajax } from 'rxjs/ajax'
-import { mergeMap, map, catchError } from 'rxjs/operators'
-import { fetchCreateGame, setGameConditions } from '../game.actions'
-import { of } from 'rxjs'
+import { mergeMap, map } from 'rxjs/operators'
+import { serverCreateGame, setGameConditions } from '../game.actions'
+import { gameSocket } from './helpers'
 
-export const createGame: Epic<any> = action$ =>
+gameSocket.connect()
+
+export const createGameEpic: Epic<any> = (action$) =>
   action$.pipe(
-    ofType(fetchCreateGame.type),
-    mergeMap(({ payload }) =>
-      ajax({
-        url: `${globalThis.config.HOST}/api/games`,
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(payload),
-      }).pipe(
-        map(({ response }) => ({ ...payload, id: response })),
-        catchError(err => {
-          console.log(err)
-          return of(err)
-        })
-      )
-    ),
-    map(conditions => setGameConditions(conditions))
+    ofType(serverCreateGame.type),
+    mergeMap(({ payload }) => {
+      return gameSocket.createGame(payload)
+    }),
+    map(({ payload }) => setGameConditions(payload))
   )
