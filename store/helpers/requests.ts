@@ -11,12 +11,12 @@ export const postGameById = (
     url: `${global.config.HTTPHOST}/api/games/${id}/${resource}`,
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
     },
-    body: JSON.stringify(payload),
+    body: JSON.stringify(payload)
   }).pipe(
     map(({ response }) => response),
-    catchError(err => {
+    catchError((err) => {
       console.error(err)
       return of(err)
     })

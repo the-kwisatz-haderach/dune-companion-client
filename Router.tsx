@@ -1,13 +1,16 @@
 import React from 'react'
 import { View } from 'react-native'
+import { useSelector } from 'react-redux'
 import { NativeRouter, Route, Switch, BackButton } from 'react-router-native'
 import Home from './pages/Home'
 import Profile from './pages/Profile'
 import CreateProfile from './pages/CreateProfile'
 import CreateGame from './pages/CreateGame'
 import GameLobby from './pages/GameLobby'
+import { RootState } from './store/domains'
 
-export default function Router() {
+export default function Router(): React.ReactElement {
+  const { connected } = useSelector(({ websocket }: RootState) => websocket)
   return (
     <NativeRouter>
       <BackButton>
@@ -18,9 +21,9 @@ export default function Router() {
             <Route path="/profile/new" component={CreateProfile} />
           </Switch>
           <Switch>
-            <Route exact path="/game" component={Profile} />
             <Route exact path="/game/create" component={CreateGame} />
-            <Route path="/game/:id" component={GameLobby} />
+            {connected && <Route path="/game/:id" component={GameLobby} />}
+            <Route path="/game" component={Profile} />
           </Switch>
         </View>
       </BackButton>

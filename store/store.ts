@@ -1,29 +1,11 @@
 import { createStore, Store } from 'redux'
-import { IGame as GameState } from '../../server/engine/interfaces'
 import initializeMiddleware from './middleware'
-import rootReducer from './game'
-import { combineEpics } from 'redux-observable'
-import { catchError } from 'rxjs/operators'
-import gameEpics from './game/epics'
-import { Observable } from 'rxjs'
+import rootReducer, { RootState } from './domains'
+import rootEpic from './epics'
 
-const epics = [...gameEpics]
-
-const rootEpic = (action$, store$, dependencies): Observable<any> =>
-  combineEpics(...epics)(action$, store$, dependencies).pipe(
-    catchError((error, source) => {
-      console.error(error)
-      return source
-    })
-  )
-
-export interface ApplicationState {
-  game: GameState
-}
-
-export default function configureStore(): Store {
-  const { middleware, initEpicmiddleware } = initializeMiddleware(rootEpic)
+export default function configureStore(): Store<RootState> {
+  const { middleware, initEpicMiddleware } = initializeMiddleware(rootEpic)
   const store = createStore(rootReducer, middleware)
-  initEpicmiddleware()
+  initEpicMiddleware()
   return store
 }

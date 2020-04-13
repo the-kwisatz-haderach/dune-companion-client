@@ -1,32 +1,37 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect, useLocation } from 'react-router-native'
 import { View, StyleSheet } from 'react-native'
 import { Headline, HelperText, Text } from 'react-native-paper'
 import useForm from '../hooks/useForm/useForm'
 import withAppbar from '../layouts/withAppBar'
-import { ApplicationState } from '../store/store'
 import { gameSchema } from '../components/Forms/schema/game.schema'
 import CreateGameForm from '../components/Forms/CreateGameForm'
-import { serverCreateGame } from '../store/game/game.actions'
+import { connect } from '../store/domains/websocket/actions'
+import { createGame } from '../store/domains/game/actions'
+import { RootState } from '../store/domains'
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10,
-  },
+    padding: 10
+  }
 })
 
 const CreateGame = () => {
   const dispatch = useDispatch()
   const location = useLocation()
-  const game = useSelector(({ game }: ApplicationState) => game)
+  const game = useSelector(({ game }: RootState) => game) as RootState['game']
 
-  const handleSubmit = formValues => {
+  useEffect(() => {
+    dispatch(connect())
+  }, [dispatch])
+
+  const handleSubmit = (formValues) => {
     dispatch(
-      serverCreateGame({
+      createGame({
         maxPlayers: formValues.maxPlayers,
         advancedMode: formValues.advancedMode,
-        maxTurns: formValues.maxTurns,
+        maxTurns: formValues.maxTurns
       })
     )
   }
@@ -47,7 +52,7 @@ const CreateGame = () => {
       <Headline>Create game</Headline>
       <HelperText>Maximum players</HelperText>
       {game &&
-        Object.keys(game).map(key => (
+        Object.keys(game).map((key) => (
           <Text key={key}>{game[key].toString()}</Text>
         ))}
       <CreateGameForm
