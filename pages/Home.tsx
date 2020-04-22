@@ -16,17 +16,21 @@ export default function Home(): ReactElement {
       />
       <View
         style={{
-          padding: 40,
+          padding: 40
         }}
       >
         <View
           style={{
-            marginBottom: 40,
+            marginBottom: 40
           }}
         >
           <Title>Login</Title>
           <TextInput label="Username" />
-          <TextInput label="Password" />
+          <TextInput
+            label="Password"
+            autoCompleteType="password"
+            secureTextEntry
+          />
           <Link to="/profile/new">
             <Button>Create Profile</Button>
           </Link>
@@ -34,7 +38,7 @@ export default function Home(): ReactElement {
         <Divider text="Or" />
         <View
           style={{
-            marginTop: 40,
+            marginTop: 40
           }}
         >
           <Link to="/game/create">

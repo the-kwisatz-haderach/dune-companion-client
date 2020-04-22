@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { Redirect, useLocation } from 'react-router-native'
 import { View, StyleSheet } from 'react-native'
-import { Headline, HelperText, Text } from 'react-native-paper'
+import { Headline, Paragraph } from 'react-native-paper'
 import useForm from '../hooks/useForm/useForm'
 import withAppbar from '../layouts/withAppBar'
 import { gameSchema } from '../components/Forms/schema/game.schema'
@@ -13,7 +13,11 @@ import { RootState } from '../store/domains'
 
 const styles = StyleSheet.create({
   container: {
-    padding: 10
+    padding: 20,
+    flex: 1,
+    display: 'flex',
+    alignItems: 'flex-start',
+    justifyContent: 'space-between'
   }
 })
 
@@ -26,7 +30,7 @@ const CreateGame = () => {
     dispatch(connect())
   }, [dispatch])
 
-  const handleSubmit = (formValues) => {
+  const handleSubmit = (formValues): void => {
     dispatch(
       createGame({
         maxPlayers: formValues.maxPlayers,
@@ -49,12 +53,8 @@ const CreateGame = () => {
       ) : (
         <></>
       )}
-      <Headline>Create game</Headline>
-      <HelperText>Maximum players</HelperText>
-      {game &&
-        Object.keys(game).map((key) => (
-          <Text key={key}>{game[key].toString()}</Text>
-        ))}
+      <Headline>Game settings</Headline>
+      <Paragraph>Please enter the settings for game.</Paragraph>
       <CreateGameForm
         formState={formState}
         onSubmit={onSubmit}

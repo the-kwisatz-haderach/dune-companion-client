@@ -11,9 +11,9 @@ const formReducer = (initialState: FormSchema) =>
       ...state,
       [action.payload.fieldKey]: {
         ...state[action.payload.fieldKey],
-        value: action.payload.value,
-      },
-    }),
+        value: action.payload.value
+      }
+    })
   })
 
 export default formReducer

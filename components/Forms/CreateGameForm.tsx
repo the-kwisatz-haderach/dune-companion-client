@@ -6,13 +6,14 @@ import { FormComponentProps } from './types'
 const CreateGameForm: React.FC<FormComponentProps> = ({
   formState,
   onSubmit,
-  onChange,
+  onChange
 }) => {
   return (
     <View>
+      <HelperText>Maximum players</HelperText>
       <ToggleButton.Row
         value={formState.maxPlayers.value.toString()}
-        onValueChange={value => {
+        onValueChange={(value) => {
           onChange('maxPlayers', +value)
         }}
       >
@@ -25,7 +26,7 @@ const CreateGameForm: React.FC<FormComponentProps> = ({
       <HelperText>Turns duration</HelperText>
       <ToggleButton.Row
         value={formState.maxTurns.value.toString()}
-        onValueChange={value => {
+        onValueChange={(value) => {
           onChange('maxTurns', +value)
         }}
       >

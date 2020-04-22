@@ -1,5 +1,5 @@
 import React from 'react'
-import { View } from 'react-native'
+import { View, StyleSheet } from 'react-native'
 import { useSelector } from 'react-redux'
 import { NativeRouter, Route, Switch, BackButton } from 'react-router-native'
 import Home from './pages/Home'
@@ -9,12 +9,18 @@ import CreateGame from './pages/CreateGame'
 import GameLobby from './pages/GameLobby'
 import { RootState } from './store/domains'
 
+const styles = StyleSheet.create({
+  container: {
+    height: '100%'
+  }
+})
+
 export default function Router(): React.ReactElement {
   const { connected } = useSelector(({ websocket }: RootState) => websocket)
   return (
     <NativeRouter>
       <BackButton>
-        <View>
+        <View style={styles.container}>
           <Route exact path="/" component={Home} />
           <Switch>
             <Route exact path="/profile" component={Profile} />

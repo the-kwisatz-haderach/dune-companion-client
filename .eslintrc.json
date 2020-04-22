@@ -26,6 +26,7 @@
     "@typescript-eslint/interface-name-prefix": "off",
     "no-useless-catch": "off",
     "no-return-assign": "off",
-    "comma-dangle": "off"
+    "comma-dangle": "off",
+    "@typescript-eslint/no-var-requires": "off"
   }
 }
