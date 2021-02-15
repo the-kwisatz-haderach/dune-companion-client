@@ -25,7 +25,7 @@ const webSocketReducer = createReducer<WebSocketState>(initialWebSocketState, {
   [messageSent.type]: (state) => {
     return state
   },
-  [receiveMessage.type]: (state, action) => {
+  [receiveMessage.type]: (state) => {
     return state
   }
 })

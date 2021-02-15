@@ -3,7 +3,7 @@
     "name": "Dune companion",
     "slug": "dune-companion",
     "privacy": "public",
-    "sdkVersion": "36.0.0",
+    "sdkVersion": "40.0.0",
     "platforms": [
       "ios",
       "android",
@@ -21,7 +21,8 @@
       "fallbackToCacheTimeout": 0
     },
     "assetBundlePatterns": [
-      "**/*"
+      "**/*",
+      "../server/engine/**/*"
     ],
     "ios": {
       "supportsTablet": true

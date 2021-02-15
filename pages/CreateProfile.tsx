@@ -8,7 +8,7 @@ function CreateProfile(): ReactElement {
     <View
       style={{
         flexDirection: 'row',
-        padding: 40,
+        padding: 40
       }}
     >
       <Text>Create Profile</Text>

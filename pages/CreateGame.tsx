@@ -8,8 +8,8 @@ import withAppbar from '../layouts/withAppBar'
 import { gameSchema } from '../components/Forms/schema/game.schema'
 import CreateGameForm from '../components/Forms/CreateGameForm'
 import { connect } from '../store/domains/websocket/actions'
-import { createGame } from '../store/domains/game/actions'
 import { RootState } from '../store/domains'
+import { playerActions } from 'dune'
 
 const styles = StyleSheet.create({
   container: {
@@ -28,14 +28,18 @@ const CreateGame = () => {
 
   useEffect(() => {
     dispatch(connect())
+    console.log(playerActions.CREATE_GAME({} as any))
+    dispatch(playerActions.CREATE_GAME({} as any))
   }, [dispatch])
 
   const handleSubmit = (formValues): void => {
     dispatch(
-      createGame({
+      playerActions.SET_CONDITIONS({
+        gameId: game.id,
         maxPlayers: formValues.maxPlayers,
         advancedMode: formValues.advancedMode,
-        maxTurns: formValues.maxTurns
+        maxTurns: formValues.maxTurns,
+        playerId: ''
       })
     )
   }

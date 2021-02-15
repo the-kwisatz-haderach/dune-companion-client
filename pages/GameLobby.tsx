@@ -6,9 +6,9 @@ import useForm from '../hooks/useForm/useForm'
 import CreatePlayerForm from '../components/Forms/CreatePlayerForm'
 import { playerSchema } from '../components/Forms/schema/player.schema'
 import withAppBar from '../layouts/withAppBar'
-import { createPlayer } from '../store/domains/game/actions'
 import { RootState } from '../store/domains'
 import { disconnect } from '../store/domains/websocket/actions'
+import factions from 'dune/lib/library/factions'
 
 const styles = StyleSheet.create({
   container: {
@@ -23,10 +23,10 @@ const GameLobby = () => {
   ) as RootState['game']
 
   const handleSubmit = (formValues): void => {
-    dispatch(createPlayer({ playerName: formValues.name }))
+    // dispatch(
+    //   gameUpdater.actions.joinGame({ gameId: game.id, name: formValues.name })
+    // )
   }
-
-  console.log(gameState)
 
   const [formState, onSubmit, onChange] = useForm(playerSchema, handleSubmit)
 
@@ -42,7 +42,7 @@ const GameLobby = () => {
         onSubmit={onSubmit}
         onChange={onChange}
       />
-      {gameState.factions.map((faction, index) => (
+      {Object.values(factions).map((faction, index) => (
         <Card key={index}>
           <Card.Cover
             source={{

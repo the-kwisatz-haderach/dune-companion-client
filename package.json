@@ -12,6 +12,7 @@
     "@types/redux-logger": "^3.0.7",
     "dune": "file:../engine/dune-v0.1.15.tgz",
     "expo": "40",
+    "expo-cli": "^4.1.6",
     "expo-linear-gradient": "~8.0.0",
     "react": "~16.9.0",
     "react-dom": "~16.9.0",

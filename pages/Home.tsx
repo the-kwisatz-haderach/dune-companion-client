@@ -1,5 +1,5 @@
 import React, { ReactElement } from 'react'
-import { View, Text } from 'react-native'
+import { View } from 'react-native'
 import { Link } from 'react-router-native'
 import { Button, TextInput, Title } from 'react-native-paper'
 import HeroBanner from '../components/HeroBanner'
