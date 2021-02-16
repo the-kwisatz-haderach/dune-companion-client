@@ -3,7 +3,6 @@
     "name": "Dune companion",
     "slug": "dune-companion",
     "privacy": "public",
-    "sdkVersion": "40.0.0",
     "platforms": [
       "ios",
       "android",
