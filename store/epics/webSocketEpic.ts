@@ -1,7 +1,7 @@
 import { webSocket } from 'rxjs/webSocket'
 import { Subject } from 'rxjs'
 import { combineEpics, ofType } from 'redux-observable'
-import { switchMap, mapTo, mergeMap } from 'rxjs/operators'
+import { switchMap, mapTo, mergeMap, tap } from 'rxjs/operators'
 import { engineActions, playerActions } from 'dune'
 import {
   connect,
@@ -19,21 +19,13 @@ const webSocketSubject$ = webSocket<{ type: string; payload: any }>({
 })
 
 const connectEpic: RootEpic = (action$) =>
-  action$.pipe(
-    ofType(connect.type),
-    switchMap((action) => {
-      webSocketSubject$.next(playerActions.JOIN_GAME(action.payload as any))
-      return webSocketSubject$
-    }),
-    mapTo(connected())
-  )
+  action$.pipe(ofType(connect.type), mapTo(connected()))
 
 const disconnectEpic: RootEpic = (action$) =>
   action$.pipe(
     ofType(disconnect.type),
-    switchMap(() => {
+    tap(() => {
       webSocketSubject$.complete()
-      return webSocketSubject$
     }),
     mapTo(disconnected())
   )

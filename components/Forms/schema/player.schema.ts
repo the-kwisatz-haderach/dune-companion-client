@@ -1,8 +1,8 @@
 import { FormSchema } from '../../../hooks/useForm/types'
 
-export const playerSchema: FormSchema = {
+export const playerSchema: FormSchema<{ name: string }> = {
   name: {
     value: '',
-    label: 'Player name',
-  },
+    label: 'Player name'
+  }
 }

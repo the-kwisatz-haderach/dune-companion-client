@@ -1,14 +1,14 @@
+import factions from 'dune/lib/library/factions'
 import React from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { StyleSheet, ScrollView, Text } from 'react-native'
+import { ScrollView, StyleSheet, Text } from 'react-native'
 import { Button, Card, Paragraph } from 'react-native-paper'
-import useForm from '../hooks/useForm/useForm'
+import { useDispatch, useSelector } from 'react-redux'
 import CreatePlayerForm from '../components/Forms/CreatePlayerForm'
 import { playerSchema } from '../components/Forms/schema/player.schema'
+import useForm from '../hooks/useForm/useForm'
 import withAppBar from '../layouts/withAppBar'
 import { RootState } from '../store/domains'
 import { disconnect } from '../store/domains/websocket/actions'
-import factions from 'dune/lib/library/factions'
 
 const styles = StyleSheet.create({
   container: {
@@ -28,19 +28,22 @@ const GameLobby = () => {
     // )
   }
 
-  const [formState, onSubmit, onChange] = useForm(playerSchema, handleSubmit)
+  const { formState, submitForm, updateField } = useForm(
+    playerSchema,
+    handleSubmit
+  )
 
   return (
     <ScrollView style={styles.container}>
       <Button onPress={() => dispatch(disconnect())}>Disconnect</Button>
       <Text>{gameState.id}</Text>
-      {gameState.players.map((player, index) => (
+      {Object.values(gameState.players).map((player, index) => (
         <Text key={index}>{player.name}</Text>
       ))}
       <CreatePlayerForm
         formState={formState}
-        onSubmit={onSubmit}
-        onChange={onChange}
+        onSubmit={submitForm}
+        onChange={updateField}
       />
       {Object.values(factions).map((faction, index) => (
         <Card key={index}>

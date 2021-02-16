@@ -1,41 +1,36 @@
-interface ValidationFunction {
-  (fieldKey: keyof FormSchema): string | void
-}
+export type ValidationFunction<T> = (value: T) => string
 
-interface Schema<T> {
-  [fieldKey: string]: T
-}
-
-export interface FormField {
-  value: any
+export type FormField<T> = {
+  value: T
   placeholder?: string
   label?: string
   error?: string
+  disabled?: boolean
 }
 
-export type FormSchema = Schema<Omit<FormField, 'error'>>
-type ValidationSchema = Schema<ValidationFunction>
+export type FormSchema<T extends {}> = { [P in keyof T]: FormField<T[P]> }
 
-interface SubmitHandler {
-  (formValues: Schema<FormField['value']>): void
+export type ValidationSchema<T extends {}> = {
+  [P in keyof T]: ValidationFunction<T[P]>
 }
 
-interface UseFormOptions {
-  validationSchema: ValidationSchema
+export type SubmitHandler<T extends {}> = (
+  formValues: { [P in keyof FormSchema<T>]: T[keyof T] }
+) => void
+
+export type UseFormOptions<T extends {}> = {
+  validationSchema: ValidationSchema<T>
 }
 
-export interface OnSubmit {
-  (): void
-}
+export type SubmitForm = () => void
 
-export interface OnChange {
-  (fieldKey: keyof FormSchema, value): void
-}
+export type UpdateField<T extends {}> = <P extends keyof T>(
+  key: P,
+  value: T[P]
+) => void
 
-export interface UseFormHook {
-  (
-    formSchema: FormSchema,
-    submitHandler: SubmitHandler,
-    options?: UseFormOptions
-  ): [FormSchema, OnSubmit, OnChange]
+export type UseFormHook<T extends {}> = {
+  formState: FormSchema<T>
+  submitForm: SubmitForm
+  updateField: UpdateField<T>
 }

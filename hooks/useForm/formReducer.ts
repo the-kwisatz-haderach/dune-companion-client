@@ -1,19 +1,29 @@
 import { createAction, createReducer } from '@reduxjs/toolkit'
-import { FormSchema, FormField } from './types'
+import { FormSchema } from './types'
 
-export const updateValue = createAction<Pick<FormField, 'value'>>(
-  'form/createValue'
-)
+const UPDATE_VALUE = 'UPDATE_VALUE'
 
-const formReducer = (initialState: FormSchema) =>
-  createReducer(initialState, {
-    [updateValue.type]: (state, action) => ({
-      ...state,
-      [action.payload.fieldKey]: {
-        ...state[action.payload.fieldKey],
-        value: action.payload.value
-      }
-    })
+const formReducerFactory = <T extends {}>(initialState: FormSchema<T>) => {
+  const updateValue = createAction<
+    {
+      key: keyof FormSchema<T>
+      value: FormSchema<T>[keyof FormSchema<T>]['value']
+    },
+    typeof UPDATE_VALUE
+  >(UPDATE_VALUE)
+
+  const reducer = createReducer<FormSchema<T>>(initialState, {
+    [updateValue.type]: (state, action) => {
+      state[action.payload.key].value = action.payload.value
+    }
   })
 
-export default formReducer
+  return {
+    reducer,
+    actions: {
+      updateValue
+    }
+  }
+}
+
+export default formReducerFactory

@@ -10,6 +10,7 @@ import CreateGameForm from '../components/Forms/CreateGameForm'
 import { connect } from '../store/domains/websocket/actions'
 import { RootState } from '../store/domains'
 import { playerActions } from 'dune'
+import { Conditions } from 'dune/lib/models/game'
 
 const styles = StyleSheet.create({
   container: {
@@ -24,15 +25,18 @@ const styles = StyleSheet.create({
 const CreateGame = () => {
   const dispatch = useDispatch()
   const location = useLocation()
-  const game = useSelector(({ game }: RootState) => game) as RootState['game']
+  const { game, websocket } = useSelector(
+    (state: RootState) => state
+  ) as RootState
 
   useEffect(() => {
-    dispatch(connect())
-    console.log(playerActions.CREATE_GAME({} as any))
-    dispatch(playerActions.CREATE_GAME({} as any))
-  }, [dispatch])
+    if (!websocket.connected) {
+      dispatch(connect())
+    }
+    // dispatch(playerActions.CREATE_GAME())
+  }, [dispatch, websocket])
 
-  const handleSubmit = (formValues): void => {
+  const handleSubmit = (formValues: Conditions): void => {
     dispatch(
       playerActions.SET_CONDITIONS({
         gameId: game.id,
@@ -44,7 +48,10 @@ const CreateGame = () => {
     )
   }
 
-  const [formState, onSubmit, onChange] = useForm(gameSchema, handleSubmit)
+  const { formState, submitForm, updateField } = useForm(
+    gameSchema,
+    handleSubmit
+  )
 
   return (
     <View style={styles.container}>
@@ -61,8 +68,8 @@ const CreateGame = () => {
       <Paragraph>Please enter the settings for game.</Paragraph>
       <CreateGameForm
         formState={formState}
-        onSubmit={onSubmit}
-        onChange={onChange}
+        submitForm={submitForm}
+        updateField={updateField}
       />
     </View>
   )

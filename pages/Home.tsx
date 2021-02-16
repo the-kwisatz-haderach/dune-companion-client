@@ -1,11 +1,25 @@
-import React, { ReactElement } from 'react'
+import React, { ReactElement, useEffect } from 'react'
 import { View } from 'react-native'
 import { Link } from 'react-router-native'
 import { Button, TextInput, Title } from 'react-native-paper'
+import { useDispatch, useSelector } from 'react-redux'
 import HeroBanner from '../components/HeroBanner'
 import Divider from '../components/Divider'
+import { RootState } from '../store/domains'
+import { disconnect } from '../store/domains/websocket/actions'
 
 export default function Home(): ReactElement {
+  const dispatch = useDispatch()
+  const isConnected = useSelector(
+    (state: RootState) => state.websocket.connected
+  )
+
+  useEffect(() => {
+    if (isConnected) {
+      dispatch(disconnect())
+    }
+  }, [dispatch, isConnected])
+
   return (
     <View>
       <HeroBanner
@@ -42,7 +56,7 @@ export default function Home(): ReactElement {
           }}
         >
           <Link to="/game/create">
-            <Button mode="contained">Create game</Button>
+            <Button mode="contained">Begin new game</Button>
           </Link>
         </View>
       </View>
