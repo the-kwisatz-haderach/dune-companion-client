@@ -1,10 +1,10 @@
-import { Game } from 'dune'
 import React from 'react'
 import { View } from 'react-native'
 import { Switch, HelperText, Button, ToggleButton } from 'react-native-paper'
 import { UseFormHook } from '../../hooks/useForm/types'
+import { SetConditionsSchema } from './schema/game.schema'
 
-type Props = UseFormHook<Game['conditions']>
+type Props = UseFormHook<SetConditionsSchema>
 
 const CreateGameForm: React.FC<Props> = ({
   formState,

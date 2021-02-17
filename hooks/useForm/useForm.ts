@@ -1,29 +1,34 @@
 import { mapValues } from 'lodash'
-import { useReducer, useEffect, useCallback } from 'react'
-import formReducerFactory from './formReducer'
-import { FormSchema, SubmitHandler, UseFormHook } from './types'
+import { useReducer, useCallback, Reducer } from 'react'
+import formReducer, { FormActions, updateValue } from './formReducer'
+import {
+  FormSchema,
+  SubmitHandler,
+  UseFormHook,
+  FieldTypeSchema,
+  SubmitForm,
+  UpdateField
+} from './types'
 
-const useForm = <T extends {}>(
+const useForm = <T extends FieldTypeSchema<T>>(
   formSchema: FormSchema<T>,
   submitHandler: SubmitHandler<T>
 ): UseFormHook<T> => {
-  const { reducer, actions } = formReducerFactory(formSchema)
-  const [formState, dispatch] = useReducer(reducer, formSchema)
-
-  const updateField = useCallback(
-    (key: keyof T, value: T[keyof T]): void => {
-      dispatch(actions.updateValue({ key, value }))
-    },
-    [dispatch, actions]
+  const [formState, dispatch] = useReducer<Reducer<FormSchema<T>, FormActions>>(
+    formReducer,
+    formSchema
   )
 
-  const submitForm = useCallback((): void => {
+  const updateField: UpdateField<T> = useCallback(
+    (key, value) => {
+      dispatch(updateValue({ key, value }))
+    },
+    [dispatch]
+  )
+
+  const submitForm: SubmitForm = useCallback(() => {
     submitHandler(mapValues(formState, (field) => field.value))
   }, [submitHandler, formState])
-
-  // useEffect(() => {
-  //   console.log('new schema rerender!')
-  // }, [formSchema])
 
   return { formState, submitForm, updateField }
 }
