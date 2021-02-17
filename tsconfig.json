@@ -8,8 +8,5 @@
     "skipLibCheck": true,
     "resolveJsonModule": true,
     "baseUrl": "src",
-    "include": [
-      "../server/engine/**/*"
-    ]
   }
 }
