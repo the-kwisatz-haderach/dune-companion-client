@@ -17,7 +17,7 @@ const CreateGameForm: React.FC<Props> = ({
       <ToggleButton.Row
         value={formState.maxPlayers.value.toString()}
         onValueChange={(value) => {
-          updateField('maxPlayers', +value)
+          updateField({ key: 'maxPlayers', value: +value })
         }}
       >
         <ToggleButton icon="numeric-2" value="2" />
@@ -30,7 +30,7 @@ const CreateGameForm: React.FC<Props> = ({
       <ToggleButton.Row
         value={formState.maxTurns.value.toString()}
         onValueChange={(value) => {
-          updateField('maxTurns', +value)
+          updateField({ key: 'maxTurns', value: +value })
         }}
       >
         <ToggleButton icon="numeric-5" value="5" />
@@ -44,7 +44,10 @@ const CreateGameForm: React.FC<Props> = ({
       <Switch
         value={formState.advancedMode.value}
         onValueChange={() => {
-          updateField('advancedMode', !formState.advancedMode.value)
+          updateField({
+            key: 'advancedMode',
+            value: !formState.advancedMode.value
+          })
         }}
       />
       <Button mode="contained" onPress={submitForm}>
