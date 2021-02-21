@@ -1,4 +1,4 @@
-import { UPDATE_VALUE, CLEAR_FORM, FormActions } from '.'
+import { UPDATE_VALUE, CLEAR_FORM, FormActions } from './actions'
 import { FieldTypeSchema, FormSchema } from '../schema/types'
 
 const formReducer = <T extends FieldTypeSchema<T>>(

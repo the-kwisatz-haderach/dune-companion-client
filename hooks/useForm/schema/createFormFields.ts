@@ -37,7 +37,7 @@ const fieldCreator: FieldCreator = (type) => ({
   ...defaultValues[type]
 })
 
-export const schemaCreator = <T extends FieldTypeSchema<T>>(fieldSchema: T) => {
+const schemaCreator = <T extends FieldTypeSchema<T>>(fieldSchema: T) => {
   const formSchema = mapValues(fieldSchema, (fieldType) =>
     fieldCreator(fieldType)
   )
@@ -55,3 +55,5 @@ export const schemaCreator = <T extends FieldTypeSchema<T>>(fieldSchema: T) => {
         : { ...defaultFieldValues, value: values[fieldKey] }
     ) as unknown) as FormSchema<T>
 }
+
+export default schemaCreator

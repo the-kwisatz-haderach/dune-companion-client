@@ -1,4 +1,4 @@
-import { FormActions } from '../transitions'
+import { FormActions } from '../reducer/actions'
 
 export type FieldType = 'text' | 'number' | 'checkbox' | 'custom'
 
