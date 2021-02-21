@@ -1,10 +1,10 @@
 import React from 'react'
 import { View } from 'react-native'
 import { Switch, HelperText, Button, ToggleButton } from 'react-native-paper'
-import { UseFormHook } from '../../hooks/useForm/types'
-import { SetConditionsSchema } from './schema/game.schema'
+import { UseFormProps } from '../../hooks/useForm/types'
+import { gameSchema } from './schema/game.schema'
 
-type Props = UseFormHook<SetConditionsSchema>
+type Props = UseFormProps<typeof gameSchema>
 
 const CreateGameForm: React.FC<Props> = ({
   formState,

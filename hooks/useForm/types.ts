@@ -5,6 +5,10 @@ import {
   FormSchema
 } from './schema/types'
 
+export type DeepPartial<T extends {}> = {
+  [K in keyof T]?: T[K] extends {} ? DeepPartial<T[K]> : T[K]
+}
+
 export type ValidationFunction<
   P extends FieldType,
   T extends FieldTypeSchema<any>
@@ -17,8 +21,8 @@ export type ValidationSchema<T extends FieldTypeSchema<T>> = {
   [P in keyof T]: ValidationFunction<T[P], T>
 }
 
-export type SubmitHandler<T extends FieldTypeSchema<T>> = (
-  formValues: { [P in keyof T]: FormField<T[P]>['value'] }
+export type SubmitHandler<T extends FormSchema<any>> = (
+  formValues: { [P in keyof T]: T[P]['value'] }
 ) => void
 
 export type UseFormOptions<T extends FieldTypeSchema<T>> = {
@@ -27,7 +31,7 @@ export type UseFormOptions<T extends FieldTypeSchema<T>> = {
 
 export type SubmitForm = () => void
 
-export type UpdateField<T extends FieldTypeSchema<T>> = <P extends keyof T>(
+export type UpdateField<T extends FieldTypeSchema<any>> = <P extends keyof T>(
   payload: T[P] extends 'checkbox'
     ? {
         key: P
@@ -39,8 +43,8 @@ export type UpdateField<T extends FieldTypeSchema<T>> = <P extends keyof T>(
       }
 ) => void
 
-export type UseFormHook<T extends FieldTypeSchema<T>> = {
-  formState: FormSchema<T>
+export type UseFormProps<T extends FormSchema<any>> = {
+  formState: T
   submitForm: SubmitForm
-  updateField: UpdateField<T>
+  updateField: UpdateField<{ [K in keyof T]: T[K]['type'] }>
 }

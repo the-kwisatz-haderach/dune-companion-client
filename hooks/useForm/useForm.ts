@@ -1,29 +1,35 @@
 import { mapValues } from 'lodash'
-import { useReducer, useCallback, useRef } from 'react'
+import { useReducer, useCallback, Reducer } from 'react'
 import { FieldTypeSchema, FormSchema } from './schema/types'
-import { updateFieldValue, createFormReducer } from './transitions'
-import { SubmitHandler, UseFormHook, SubmitForm, UpdateField } from './types'
+import { updateFieldValue, createFormReducer, FormActions } from './transitions'
+import { SubmitHandler, UseFormProps, SubmitForm, UpdateField } from './types'
+import { schemaCreator } from './schema/createFormFields'
+import { isFieldTypeSchema } from './typeguards'
 
-const useForm = <T extends FieldTypeSchema<T>>(
-  formSchema: FormSchema<T>,
-  submitHandler: SubmitHandler<T>
-): UseFormHook<T> => {
-  const [formState, dispatch] = useReducer(
-    createFormReducer(formSchema),
-    formSchema
-  )
-  const initialFormState = useRef(formSchema)
+const init = <T extends FieldTypeSchema<any>>(
+  initialState: FormSchema<T> | T
+): FormSchema<T> =>
+  isFieldTypeSchema(initialState) ? schemaCreator(initialState)() : initialState
+
+const useForm = <T extends FieldTypeSchema<any>>(
+  formSchema: FormSchema<T> | T,
+  submitHandler: SubmitHandler<FormSchema<T>>
+): UseFormProps<FormSchema<T>> => {
+  const [formState, dispatch] = useReducer<
+    Reducer<FormSchema<T>, FormActions>,
+    T | FormSchema<T>
+  >(createFormReducer, formSchema, init)
 
   const updateField: UpdateField<T> = useCallback(
     (payload) => {
       dispatch(
         updateFieldValue({
           ...payload,
-          type: formSchema[payload.key].type
+          type: formState[payload.key].type
         })
       )
     },
-    [formSchema]
+    [formState]
   )
 
   const submitForm: SubmitForm = useCallback(() => {

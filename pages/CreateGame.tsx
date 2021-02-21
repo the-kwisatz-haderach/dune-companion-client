@@ -11,6 +11,7 @@ import { connect } from '../store/domains/websocket/actions'
 import { RootState } from '../store/domains'
 import { playerActions } from 'dune'
 import { Conditions } from 'dune/lib/models/game'
+import { schemaCreator } from '../hooks/useForm/schema/createFormFields'
 
 const styles = StyleSheet.create({
   container: {
@@ -21,6 +22,12 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   }
 })
+
+const lol = schemaCreator({
+  maxPlayers: 'number',
+  advancedMode: 'checkbox',
+  maxTurns: 'number'
+})()
 
 const CreateGame = () => {
   const dispatch = useDispatch()
@@ -48,10 +55,7 @@ const CreateGame = () => {
     )
   }
 
-  const { formState, submitForm, updateField } = useForm(
-    gameSchema,
-    handleSubmit
-  )
+  const { formState, submitForm, updateField } = useForm(lol, handleSubmit)
 
   return (
     <View style={styles.container}>

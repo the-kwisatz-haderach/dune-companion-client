@@ -1,10 +1,10 @@
-import { UPDATE_VALUE, CLEAR_FORM, RESET } from '.'
-import { FormReducerFactory } from './types'
+import { UPDATE_VALUE, CLEAR_FORM, FormActions } from '.'
+import { FieldTypeSchema, FormSchema } from '../schema/types'
 
-const formReducerFactory: FormReducerFactory = (initialState) => (
-  state,
-  action
-) => {
+const formReducer = <T extends FieldTypeSchema<T>>(
+  state: FormSchema<T>,
+  action: FormActions
+): FormSchema<T> => {
   switch (action.type) {
     case UPDATE_VALUE: {
       return {
@@ -18,13 +18,10 @@ const formReducerFactory: FormReducerFactory = (initialState) => (
     case CLEAR_FORM: {
       return state
     }
-    case RESET: {
-      return initialState
-    }
     default: {
       return state
     }
   }
 }
 
-export default formReducerFactory
+export default formReducer

@@ -1,30 +1,28 @@
+import { mapValues } from 'lodash'
+import { DeepPartial } from '../types'
 import {
   BaseFieldCreator,
-  FieldCreatorFactory,
-  FieldType,
+  DefaultFormFields,
+  FieldCreator,
+  FieldTypeSchema,
   FormField,
-  FormFieldBase
+  FormSchema
 } from './types'
 
-const createBaseField: BaseFieldCreator = (type) => ({
+export const createBaseField: BaseFieldCreator = (type) => ({
   type,
   label: '',
   error: '',
   disabled: false
 })
 
-const defaultValues: {
-  [P in FieldType]: Omit<FormField<P>, keyof FormFieldBase>
-} = {
+const defaultValues: DefaultFormFields = {
   text: {
     value: '',
     placeholder: ''
   },
   checkbox: {
     value: false
-  },
-  radio: {
-    value: ''
   },
   custom: {
     value: ''
@@ -34,24 +32,26 @@ const defaultValues: {
   }
 }
 
-const fieldCreator: FieldCreatorFactory = (type) => (values) => ({
+const fieldCreator: FieldCreator = (type) => ({
   ...createBaseField(type),
-  ...defaultValues[type],
-  ...values
+  ...defaultValues[type]
 })
 
-const text = fieldCreator('text')
-const custom = fieldCreator('text')
-const checkbox = fieldCreator('checkbox')
-const number = fieldCreator('number')
-const radio = fieldCreator('radio')
-
-const createField: Record<FieldType, ReturnType<FieldCreatorFactory>> = {
-  text,
-  checkbox,
-  number,
-  radio,
-  custom
+export const schemaCreator = <T extends FieldTypeSchema<T>>(fieldSchema: T) => {
+  const formSchema = mapValues(fieldSchema, (fieldType) =>
+    fieldCreator(fieldType)
+  )
+  return (
+    values:
+      | DeepPartial<FormSchema<T>>
+      | { [K in keyof T]?: FormField<T[K]>['value'] } = {}
+  ) =>
+    (mapValues(formSchema, (defaultFieldValues, fieldKey) =>
+      typeof values[fieldKey] === 'object' && values[fieldKey] !== null
+        ? {
+            ...defaultFieldValues,
+            ...values[fieldKey]
+          }
+        : { ...defaultFieldValues, value: values[fieldKey] }
+    ) as unknown) as FormSchema<T>
 }
-
-export default createField
