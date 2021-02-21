@@ -1,3 +1,5 @@
+import { FormActions } from '../transitions'
+
 export type FieldType = 'text' | 'number' | 'checkbox' | 'custom'
 
 export interface FormFieldBase<T extends FieldType> {
@@ -55,3 +57,5 @@ export type DefaultFormFields<T extends FieldType = FieldType> = {
 export type Defaults<T extends string, U, V> = {
   [K in T]: Omit<U, keyof V>
 }
+
+export type FormActionDispatcher = (action: FormActions) => void

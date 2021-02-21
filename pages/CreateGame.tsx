@@ -23,12 +23,6 @@ const styles = StyleSheet.create({
   }
 })
 
-const lol = schemaCreator({
-  maxPlayers: 'number',
-  advancedMode: 'checkbox',
-  maxTurns: 'number'
-})()
-
 const CreateGame = () => {
   const dispatch = useDispatch()
   const location = useLocation()
@@ -55,7 +49,10 @@ const CreateGame = () => {
     )
   }
 
-  const { formState, submitForm, updateField } = useForm(lol, handleSubmit)
+  const { values, submitForm, updateValue } = useForm(
+    { maxPlayers: 'number', advancedMode: 'checkbox', maxTurns: 'number' },
+    handleSubmit
+  )
 
   return (
     <View style={styles.container}>
@@ -71,9 +68,9 @@ const CreateGame = () => {
       <Headline>Game settings</Headline>
       <Paragraph>Please enter the settings for game.</Paragraph>
       <CreateGameForm
-        formState={formState}
+        values={values}
         submitForm={submitForm}
-        updateField={updateField}
+        updateValue={updateValue}
       />
     </View>
   )

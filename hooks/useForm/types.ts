@@ -29,9 +29,9 @@ export type UseFormOptions<T extends FieldTypeSchema<T>> = {
   validationSchema: ValidationSchema<T>
 }
 
-export type SubmitForm = () => void
+export type FormSubmitHandler = () => void
 
-export type UpdateField<T extends FieldTypeSchema<any>> = <P extends keyof T>(
+export type ValueUpdater<T extends FieldTypeSchema<any>> = <P extends keyof T>(
   payload: T[P] extends 'checkbox'
     ? {
         key: P
@@ -44,7 +44,7 @@ export type UpdateField<T extends FieldTypeSchema<any>> = <P extends keyof T>(
 ) => void
 
 export type UseFormProps<T extends FormSchema<any>> = {
-  formState: T
-  submitForm: SubmitForm
-  updateField: UpdateField<{ [K in keyof T]: T[K]['type'] }>
+  values: T
+  submitForm: FormSubmitHandler
+  updateValue: ValueUpdater<{ [K in keyof T]: T[K]['type'] }>
 }

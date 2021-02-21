@@ -7,17 +7,17 @@ import { gameSchema } from './schema/game.schema'
 type Props = UseFormProps<typeof gameSchema>
 
 const CreateGameForm: React.FC<Props> = ({
-  formState,
+  values,
   submitForm,
-  updateField
+  updateValue
 }) => {
   return (
     <View>
       <HelperText>Maximum players</HelperText>
       <ToggleButton.Row
-        value={formState.maxPlayers.value.toString()}
+        value={values.maxPlayers.value.toString()}
         onValueChange={(value) => {
-          updateField({ key: 'maxPlayers', value: +value })
+          updateValue({ key: 'maxPlayers', value: +value })
         }}
       >
         <ToggleButton icon="numeric-2" value="2" />
@@ -28,9 +28,9 @@ const CreateGameForm: React.FC<Props> = ({
       </ToggleButton.Row>
       <HelperText>Turns duration</HelperText>
       <ToggleButton.Row
-        value={formState.maxTurns.value.toString()}
+        value={values.maxTurns.value.toString()}
         onValueChange={(value) => {
-          updateField({ key: 'maxTurns', value: +value })
+          updateValue({ key: 'maxTurns', value: +value })
         }}
       >
         <ToggleButton icon="numeric-5" value="5" />
@@ -42,11 +42,11 @@ const CreateGameForm: React.FC<Props> = ({
       </ToggleButton.Row>
       <HelperText>Advanced mode</HelperText>
       <Switch
-        value={formState.advancedMode.value}
+        value={values.advancedMode.value}
         onValueChange={() => {
-          updateField({
+          updateValue({
             key: 'advancedMode',
-            value: !formState.advancedMode.value
+            value: !values.advancedMode.value
           })
         }}
       />
